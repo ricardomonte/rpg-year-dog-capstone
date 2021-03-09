@@ -19,7 +19,7 @@ class GameOver extends Phaser.Scene {
       .setScale(3);
     const score = localStorage.getItem('user');
     this.saveScore(btnSave, score);
-    this.cameras.main.fadeIn(2000)
+    this.cameras.main.fadeIn(2000);
   }
 
   /* eslint-disable no-alert */
