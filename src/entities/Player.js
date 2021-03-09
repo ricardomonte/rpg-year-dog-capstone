@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import initAnimations from './PlayerAnimations';
 import collidable from '../mixin/collidable';
+import HealthBar from '../hud/HealthBar';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -11,6 +12,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     Object.assign(this, collidable);
 
     this.hp = 100;
+
+    this.healthBar = new HealthBar(scene, 410, 310, this.hp);
     this.init();
     this.initEvents();
   }

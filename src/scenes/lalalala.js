@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import PlayerFight from '../entities/playerFight';
 import EnemyFight from '../entities/enemyFight';
 import UiFight from '../UI/UIFight';
+import HealthBar from '../hud/HealthBar';
 
 class lalala extends Phaser.Scene {
   constructor() {
@@ -12,7 +13,7 @@ class lalala extends Phaser.Scene {
     this.ui = new UiFight(this, 452, 450);
     this.hp = data.hp;
     const wolf = new EnemyFight(this, 420, 330, 50, 10).setOrigin(0, 0);
-    const player = new PlayerFight(this, 310, 350, this.hp, 10).setOrigin(0, 0.8).setScale(2);
+    const player = new PlayerFight(this, 312, 350, this.hp, 10).setOrigin(0, 0.8).setScale(2);
 
     this.damagePlayer = player.damage;
     this.hpPlayer = player.hp;
@@ -29,6 +30,9 @@ class lalala extends Phaser.Scene {
         player,
       },
     });
+
+    this.healthBar = new HealthBar(this, 310, 360, 100);
+    this.healthBar.decrease(this.hp);
   }
 
   createPlayerColliders(player, { colliders }) {
@@ -55,6 +59,7 @@ class lalala extends Phaser.Scene {
     collectable.setActive(false);
     collectable.setVisible(false);
     this.hpPlayer -= this.children.list[2].damage;
+    this.healthBar.decrease(this.hpPlayer);
 
     if (this.hpPlayer <= 0) {
       this.scene.start('GameOver');

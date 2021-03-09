@@ -24,6 +24,7 @@ class PreloadScene extends Phaser.Scene {
       frameWidth: 48, frameHeight: 32,
     });
     this.load.image('memory', 'assets/mem_img.png');
+    this.load.image('potion', 'assets/collecthealth.png');
     this.load.image('framing', 'assets/frame.png');
     this.load.spritesheet('wolfF', 'assets/hell-hound-idle.png', {
       frameWidth: 48, frameHeight: 32,

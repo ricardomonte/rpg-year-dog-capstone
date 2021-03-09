@@ -19,7 +19,7 @@ class GameScene extends Phaser.Scene {
     const enemies = this.createEnemies(layers.enemiesSpawn);
     const player = this.createPlayer(positionSpawn);
     const collectables = this.createCollectables(layers.collectable);
-
+    const collectableHealth = this.createHealthCollectables(layers.collectableHealth);
     this.addTween(collectables);
 
     this.createCamera(player, map);
@@ -29,6 +29,7 @@ class GameScene extends Phaser.Scene {
         propsColliders: layers.prop,
         bookshelfColliders: layers.bookshelf,
         collectables,
+        collectableHealth,
       },
     });
     this.createEnemyColliders(enemies, {
@@ -38,6 +39,7 @@ class GameScene extends Phaser.Scene {
     });
     this.listenToEvents();
     this.playerHp = player.hp;
+    this.healthUpdate = player.healthBar;
   }
 
   createMap() {
@@ -61,8 +63,9 @@ class GameScene extends Phaser.Scene {
     const playerSpawn = map.getObjectLayer('PlayerStart');
     const enemiesSpawn = map.getObjectLayer('SpawnEnemy');
     const collectable = map.getObjectLayer('collectables');
+    const collectableHealth = map.getObjectLayer('collectableHealth');
     return {
-      plant, prop, bookshelf, book, playerSpawn, enemiesSpawn, collectable,
+      plant, prop, bookshelf, book, playerSpawn, enemiesSpawn, collectable, collectableHealth,
     };
   }
 
@@ -81,6 +84,14 @@ class GameScene extends Phaser.Scene {
     return collectables;
   }
 
+  createHealthCollectables(collectableLayer) {
+    const collectables = this.physics.add.staticGroup();
+    collectableLayer.objects.forEach(item => {
+      collectables.get(item.x, item.y, 'potion').setDepth(-1);
+    });
+    return collectables;
+  }
+
   createPlayer({ start }) {
     return new Player(this, start.x, start.y);
   }
@@ -94,6 +105,7 @@ class GameScene extends Phaser.Scene {
     player.addCollider(colliders.propsColliders);
     player.addCollider(colliders.bookshelfColliders);
     player.addOverlap(colliders.collectables, this.onCollect, this);
+    player.addOverlap(colliders.collectableHealth, this.onHealth, this);
   }
 
   createEnemyColliders(enemies, { colliders }) {
@@ -125,6 +137,7 @@ class GameScene extends Phaser.Scene {
     this.pauseEvent = this.events.on('resume', () => {
       const a = this.scene.get('lalalala');
       this.playerHp = a.hpPlayer;
+      this.healthUpdate.decrease(this.playerHp);
       this.timedEvent = this.time.addEvent({
         callback: this.lololo,
         callbackScope: this,
@@ -136,10 +149,18 @@ class GameScene extends Phaser.Scene {
     this.physics.pause();
     this.scene.pause();
     entitty.disableBody(true, true);
-
-    // localStorage.setItem('user', `${this.initialScore}`)
     this.cameras.main.fadeIn(1000);
     this.scene.launch('lalalala', { hp: this.playerHp });
+  }
+
+  onHealth(entitty, collectable) {
+    collectable.disableBody(true, true);
+    if (this.playerHp < 70) {
+      this.playerHp += 30;
+    } else {
+      this.playerHp = 100;
+    }
+    this.healthUpdate.decrease(this.playerHp);
   }
 
   onCollect(entitty, collectable) {
