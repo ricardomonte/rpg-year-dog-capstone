@@ -1,23 +1,28 @@
-import phaser from 'phaser';
+import Phaser from 'phaser';
+import lala from './enemiesAnimation';
+import collidable from '../mixin/collidable';
 
 class Enemy extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'dog');
-    scene.add.existing(this)
+    super(scene, x, y, 'wolf');
+    scene.add.existing(this);
     scene.physics.add.existing(this);
-
-    this.init()
+    Object.assign(this, collidable);
+    this.init();
+    this.initEvents();
   }
+
   init() {
-    this.setScale(0.5)
-    this.setImmovable(true)
-    this.setSize(this.width - 6, this.height - 12)
-    this.setOffset(-1, 12)
+    this.setVisible(false);
+    this.setImmovable(true);
+    this.setOffset(-1, 12);
+
+    lala(this.scene.anims);
   }
 
-  // addColliderEnemy(layer, callback) {
-  //   this.scene.physics.add.collider(this, layer, callback, null, this)
-  // }
+  initEvents() {
+    this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
+  }
 }
 
-export default Enemy
+export default Enemy;
