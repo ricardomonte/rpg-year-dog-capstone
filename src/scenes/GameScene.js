@@ -1,88 +1,162 @@
-import phaser from 'phaser';
+import Phaser from 'phaser';
 import Player from '../entities/Player';
 import Enemy from '../entities/Enemies';
+import Hud from '../hud/container';
 
 class GameScene extends Phaser.Scene {
-  constructor(){
-    super('Game')
-    this.player = null;
+  constructor() {
+    super('Game');
   }
 
   create() {
-    const map = this.createMap()
-    const layers = this.createLayers(map)
-    const positionSpawn = this.getPlayerPoint(layers.playerSpawn)
-    const enemies = this.createEnemies(layers.enemiesSpawn)
-    const player = this.createPlayer(positionSpawn)
-    player.addCollider(layers.plant)
-    player.addCollider(layers.prop)
-    this.createColliderEnemies(enemies, player)
-    // player.addCollider(enemy)
-    // const memory = this.getPointObject(map, 'memory_one')
-    console.log(enemies)
-    // this.createMemory(memory)
-    this.createCamera(player, map)
+    this.initialScore = 0;
+    this.score = {};
+    this.hud = new Hud(this, 0, 0).setDepth(1);
+
+    const map = this.createMap();
+    const layers = this.createLayers(map);
+    const positionSpawn = this.getPlayerPoint(layers.playerSpawn);
+    const enemies = this.createEnemies(layers.enemiesSpawn);
+    const player = this.createPlayer(positionSpawn);
+    const collectables = this.createCollectables(layers.collectable);
+
+    this.addTween(collectables);
+
+    this.createCamera(player, map);
+    this.createPlayerColliders(player, {
+      colliders: {
+        mapColliders: layers.plant,
+        propsColliders: layers.prop,
+        bookshelfColliders: layers.bookshelf,
+        collectables,
+      },
+    });
+    this.createEnemyColliders(enemies, {
+      colliders: {
+        player,
+      },
+    });
+    this.listenToEvents();
+    this.playerHp = player.hp;
   }
 
-  createMap(){
-    const map = this.make.tilemap({key: 'map2'})
+  createMap() {
+    const map = this.make.tilemap({ key: 'map2' });
     map.addTilesetImage('Inside', 'inside');
 
     return map;
   }
 
   createLayers(map) {
-    const tileset = map.getTileset('Inside') 
-    const plant = map.createLayer('planthouse', tileset);
-    const prop = map.createLayer('props', tileset);
+    const tileset = map.getTileset('Inside');
+    const plant = map.createLayer('planthouse', tileset).setDepth(-2);
+    const prop = map.createLayer('props', tileset).setDepth(0);
+    const bookshelf = map.createLayer('library', tileset).setDepth(2);
     const book = map.createLayer('book', tileset);
-    plant.setCollisionByProperty({collides: true})
-    prop.setCollisionByProperty({collides: true})
 
-    const playerSpawn = map.getObjectLayer('PlayerStart')
-    const enemiesSpawn = map.getObjectLayer('SpawnEnemy')
-    return { plant, prop, book, playerSpawn, enemiesSpawn }
+    plant.setCollisionByProperty({ collides: true });
+    bookshelf.setCollisionByProperty({ collides: true });
+    prop.setCollisionByProperty({ collides: true });
+
+    const playerSpawn = map.getObjectLayer('PlayerStart');
+    const enemiesSpawn = map.getObjectLayer('SpawnEnemy');
+    const collectable = map.getObjectLayer('collectables');
+    return {
+      plant, prop, bookshelf, book, playerSpawn, enemiesSpawn, collectable,
+    };
   }
 
   getPlayerPoint(playerPoint) {
     const playerSPoint = playerPoint.objects;
     return {
-      start: playerSPoint.find(zone => zone.name === 'spawnPlayer')
-    }
+      start: playerSPoint.find(zone => zone.name === 'spawnPlayer'),
+    };
   }
 
-  createPlayer({start}){
-    return new Player(this, start.x, start.y)
+  createCollectables(collectableLayer) {
+    const collectables = this.physics.add.staticGroup();
+    collectableLayer.objects.forEach(item => {
+      collectables.get(item.x, item.y, 'memory').setDepth(-1);
+    });
+    return collectables;
   }
 
-  createEnemies(spawns){
-    const ene = spawns.objects.map(positionSpawn => {
-      return new Enemy(this, positionSpawn.x, positionSpawn.y)
-    })
-
-    return ene
+  createPlayer({ start }) {
+    return new Player(this, start.x, start.y);
   }
 
-  // createMemory(memory) {
-  //   this.physics.add.sprite(memory.x, memory.y, 'memory')
-  //     .setAlpha(0)
-  //     .setSize(20, 20)
-  // }
+  createEnemies(spawns) {
+    return spawns.objects.map(positionSpawn => new Enemy(this, positionSpawn.x, positionSpawn.y));
+  }
+
+  createPlayerColliders(player, { colliders }) {
+    player.addCollider(colliders.mapColliders);
+    player.addCollider(colliders.propsColliders);
+    player.addCollider(colliders.bookshelfColliders);
+    player.addOverlap(colliders.collectables, this.onCollect, this);
+  }
+
+  createEnemyColliders(enemies, { colliders }) {
+    enemies.forEach(enemy => {
+      enemy.addCollider(colliders.player, this.something, this);
+    });
+  }
+
+  addTween(collectableGroup) {
+    collectableGroup.children.entries.forEach(colect => {
+      this.tweens.add({
+        targets: colect,
+        y: colect.y - 3,
+        yoyo: true,
+        duration: Phaser.Math.Between(300, 550),
+        ease: 'linear',
+        repeat: -1,
+      });
+    });
+  }
+
+  lololo() {
+    this.physics.resume();
+  }
+
+  listenToEvents() {
+    if (this.pauseEvent) { return; }
+
+    this.pauseEvent = this.events.on('resume', () => {
+      const a = this.scene.get('lalalala');
+      this.playerHp = a.hpPlayer;
+      console.log(this.playerHp);
+      this.timedEvent = this.time.addEvent({
+        callback: this.lololo,
+        callbackScope: this,
+      });
+    });
+  }
+
+  something(entitty, enemy) {
+    this.physics.pause();
+    this.scene.pause();
+    entitty.disableBody(true, true);
+
+    // localStorage.setItem('user', `${this.initialScore}`)
+    this.cameras.main.fadeIn(1000);
+    this.scene.launch('lalalala', { hp: this.playerHp });
+  }
+
+  onCollect(entitty, collectable) {
+    collectable.disableBody(true, true);
+    this.initialScore += 10;
+    localStorage.setItem('user', `${this.initialScore}`);
+    this.hud.updateScoreBoard(this.initialScore);
+  }
 
   createCamera(player, map) {
     const camera = this.cameras.main;
     camera.startFollow(player);
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-    camera.zoomY = 5
-    camera.zoomX = 5
-  }
-
-  createColliderEnemies(enemies, player) {
-    enemies.forEach(enemy => {
-      player.addCollider(enemy)
-    })
+    camera.zoomY = 5;
+    camera.zoomX = 5;
   }
 }
 
 export default GameScene;
-
