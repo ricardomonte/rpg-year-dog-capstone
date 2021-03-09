@@ -1,6 +1,6 @@
-import Base from './Base';
+import Phaser from 'phaser';
 
-class CreditScene extends Base {
+class CreditScene extends Phaser.Scene {
   constructor() {
     super('CreditScene');
 
@@ -21,8 +21,13 @@ class CreditScene extends Base {
   }
 
   create() {
-    super.create();
     this.createMenu();
+    const btn = this.add.image(690, 650, 'btnMenu').setOrigin(1, 0).setInteractive().setScale(2);
+    const scene = this.scene.get('MenuScene');
+    scene.sound.volume = 0.1;
+    btn.on('pointerdown', () => {
+      window.location.reload();
+    });
   }
 
   createMenu() {

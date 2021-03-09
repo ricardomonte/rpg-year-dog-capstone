@@ -18,6 +18,7 @@ class GameOver extends Phaser.Scene {
     this.saveScore(btnSave, score);
   }
 
+  /* eslint-disable no-alert */
   saveScore(btn, score) {
     btn.on('pointerup', () => {
       const userName = window.prompt('Please enter your name to save your score.');
@@ -27,6 +28,7 @@ class GameOver extends Phaser.Scene {
       this.scene.start('CreditScene');
     });
   }
+  /* eslint-enable no-alert */
 }
 
 export default GameOver;

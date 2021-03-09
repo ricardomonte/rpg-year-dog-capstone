@@ -22,6 +22,7 @@ class Title extends Phaser.Scene {
     this.sound.add('theme', { loop: true, volume: 0.2 }).play();
   }
 
+  /* eslint-disable no-unused-expressions */
   setupMenuEvents(menuItem) {
     const textGo = menuItem.textGO;
     textGo.setInteractive();
@@ -41,6 +42,7 @@ class Title extends Phaser.Scene {
     });
   }
 
+  /* eslint-enable no-unused-expressions */
   createMenu() {
     let lastPositionY = 0;
     this.menu.forEach(menuItem => {
