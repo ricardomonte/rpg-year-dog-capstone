@@ -48,11 +48,11 @@ class GameScene extends Phaser.Scene {
   }
 
   createLayers(map) {
-    const tileset = map.getTileset('Inside');
-    const plant = map.createLayer('planthouse', tileset).setDepth(-2);
-    const prop = map.createLayer('props', tileset).setDepth(0);
-    const bookshelf = map.createLayer('library', tileset).setDepth(2);
-    const book = map.createLayer('book', tileset);
+    this.tileset = map.getTileset('Inside');
+    const plant = map.createLayer('planthouse', this.tileset).setDepth(-2);
+    const prop = map.createLayer('props', this.tileset).setDepth(0);
+    const bookshelf = map.createLayer('library', this.tileset).setDepth(2);
+    const book = map.createLayer('book', this.tileset);
 
     plant.setCollisionByProperty({ collides: true });
     bookshelf.setCollisionByProperty({ collides: true });
@@ -67,9 +67,9 @@ class GameScene extends Phaser.Scene {
   }
 
   getPlayerPoint(playerPoint) {
-    const playerSPoint = playerPoint.objects;
+    this.playerSPoint = playerPoint.objects;
     return {
-      start: playerSPoint.find(zone => zone.name === 'spawnPlayer'),
+      start: this.playerSPoint.find(zone => zone.name === 'spawnPlayer'),
     };
   }
 
@@ -125,7 +125,6 @@ class GameScene extends Phaser.Scene {
     this.pauseEvent = this.events.on('resume', () => {
       const a = this.scene.get('lalalala');
       this.playerHp = a.hpPlayer;
-      console.log(this.playerHp);
       this.timedEvent = this.time.addEvent({
         callback: this.lololo,
         callbackScope: this,
@@ -133,7 +132,7 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  something(entitty, enemy) {
+  something(entitty) {
     this.physics.pause();
     this.scene.pause();
     entitty.disableBody(true, true);

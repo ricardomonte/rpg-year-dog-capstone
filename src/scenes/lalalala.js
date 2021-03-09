@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import playerFight from '../entities/playerFight';
-import enemyFight from '../entities/enemyFight';
+import PlayerFight from '../entities/playerFight';
+import EnemyFight from '../entities/enemyFight';
 import UiFight from '../UI/UIFight';
 
 class lalala extends Phaser.Scene {
@@ -9,14 +9,13 @@ class lalala extends Phaser.Scene {
   }
 
   create(data) {
-    new UiFight(this, 452, 450);
+    this.ui = new UiFight(this, 452, 450);
     this.hp = data.hp;
-    const wolf = new enemyFight(this, 420, 330, 50, 10).setOrigin(0, 0);
-    const player = new playerFight(this, 310, 350, this.hp, 10).setOrigin(0, 0.8).setScale(2);
+    const wolf = new EnemyFight(this, 420, 330, 50, 10).setOrigin(0, 0);
+    const player = new PlayerFight(this, 310, 350, this.hp, 10).setOrigin(0, 0.8).setScale(2);
 
     this.damagePlayer = player.damage;
     this.hpPlayer = player.hp;
-    console.log(this.hpPlayer);
     this.cameras.main.setZoom(5);
 
     this.createPlayerColliders(player, {

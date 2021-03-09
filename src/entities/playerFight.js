@@ -4,7 +4,7 @@ import over from '../mixin/collidable';
 import Projectiles from '../projectiles/gProjectiles';
 import ButtonAttack from '../hud/buttonAtack';
 
-class playerFight extends Phaser.Physics.Arcade.Sprite {
+class PlayerFight extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, hp, damage) {
     super(scene, x, y, 'attack');
     scene.add.existing(this);
@@ -38,4 +38,4 @@ class playerFight extends Phaser.Physics.Arcade.Sprite {
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
   }
 }
-export default playerFight;
+export default PlayerFight;

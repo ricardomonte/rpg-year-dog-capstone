@@ -45,7 +45,8 @@ class Title extends Phaser.Scene {
     let lastPositionY = 0;
     this.menu.forEach(menuItem => {
       const menuPosition = [this.center, this.center + lastPositionY];
-      menuItem.textGO = this.add.text(...menuPosition, menuItem.text, this.fontOptions).setOrigin(0.5);
+      menuItem.textGO = this.add.text(...menuPosition, menuItem.text, this.fontOptions)
+        .setOrigin(0.5);
       lastPositionY += this.fontStep;
       this.setupMenuEvents(menuItem);
     });

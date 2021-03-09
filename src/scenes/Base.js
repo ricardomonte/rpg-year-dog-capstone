@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 class Base extends Phaser.Scene {
   constructor(key) {
     super(key);
@@ -8,7 +10,7 @@ class Base extends Phaser.Scene {
     const scene = this.scene.get('MenuScene');
     scene.sound.volume = 0.1;
     btn.on('pointerdown', () => {
-      location.reload();
+      window.location.reload();
     });
   }
 }

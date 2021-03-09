@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import over from '../mixin/collidable';
 import Projectiles from '../projectiles/gProjectilesEnemy';
 
-class enemyFight extends Phaser.Physics.Arcade.Sprite {
+class EnemyFight extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, hp, damage) {
     super(scene, x, y, 'wolfF');
     scene.add.existing(this);
@@ -32,4 +32,4 @@ class enemyFight extends Phaser.Physics.Arcade.Sprite {
   }
 }
 
-export default enemyFight;
+export default EnemyFight;

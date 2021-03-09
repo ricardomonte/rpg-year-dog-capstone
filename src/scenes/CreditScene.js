@@ -1,4 +1,3 @@
-import Phaser from 'phaser';
 import Base from './Base';
 
 class CreditScene extends Base {
