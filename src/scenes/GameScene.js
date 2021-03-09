@@ -110,7 +110,7 @@ class GameScene extends Phaser.Scene {
 
   createEnemyColliders(enemies, { colliders }) {
     enemies.forEach(enemy => {
-      enemy.addCollider(colliders.player, this.something, this);
+      enemy.addCollider(colliders.player, this.changeScene, this);
     });
   }
 
@@ -127,7 +127,7 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  lololo() {
+  startScene() {
     this.physics.resume();
   }
 
@@ -135,22 +135,22 @@ class GameScene extends Phaser.Scene {
     if (this.pauseEvent) { return; }
 
     this.pauseEvent = this.events.on('resume', () => {
-      const a = this.scene.get('lalalala');
+      const a = this.scene.get('FightScene');
       this.playerHp = a.hpPlayer;
       this.healthUpdate.decrease(this.playerHp);
       this.timedEvent = this.time.addEvent({
-        callback: this.lololo,
+        callback: this.startScene,
         callbackScope: this,
       });
     });
   }
 
-  something(entitty) {
+  changeScene(entitty) {
     this.physics.pause();
     this.scene.pause();
     entitty.disableBody(true, true);
     this.cameras.main.fadeIn(1000);
-    this.scene.launch('lalalala', { hp: this.playerHp });
+    this.scene.launch('FightScene', { hp: this.playerHp });
   }
 
   onHealth(entitty, collectable) {

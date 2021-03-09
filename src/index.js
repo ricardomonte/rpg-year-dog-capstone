@@ -6,7 +6,7 @@ import Title from './scenes/Title';
 import Scoreboard from './scenes/Scores';
 import InitialText from './scenes/InitialText';
 import GameScene from './scenes/GameScene';
-import lalala from './scenes/lalalala';
+import FightScene from './scenes/FightScene';
 import GameOver from './scenes/GameOver';
 import CreditScene from './scenes/CreditScene';
 
@@ -19,7 +19,7 @@ class Game extends Phaser.Game {
     this.scene.add('Intro', InitialText);
     this.scene.add('MenuScene', Title);
     this.scene.add('Game', GameScene);
-    this.scene.add('lalalala', lalala);
+    this.scene.add('FightScene', FightScene);
     this.scene.add('GameOver', GameOver);
     this.scene.add('CreditScene', CreditScene);
     this.scene.start('Boot');

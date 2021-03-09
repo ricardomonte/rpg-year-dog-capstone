@@ -4,9 +4,9 @@ import EnemyFight from '../entities/enemyFight';
 import UiFight from '../UI/UIFight';
 import HealthBar from '../hud/HealthBar';
 
-class lalala extends Phaser.Scene {
+class FightScene extends Phaser.Scene {
   constructor() {
-    super('lalalala');
+    super('FightScene');
   }
 
   create(data) {
@@ -36,14 +36,14 @@ class lalala extends Phaser.Scene {
   }
 
   createPlayerColliders(player, { colliders }) {
-    player.addCollider(colliders.wolf.projectile, this.lili, this);
+    player.addCollider(colliders.wolf.projectile, this.returnMainScene, this);
   }
 
   createEnemyColliders(enemy, { colliders }) {
-    enemy.addCollider(colliders.player.projectile, this.lele, this);
+    enemy.addCollider(colliders.player.projectile, this.reduceHp, this);
   }
 
-  lele(entitty, collectable) {
+  reduceHp(entitty, collectable) {
     collectable.setActive(false);
     collectable.setVisible(false);
     entitty.hp -= this.damagePlayer;
@@ -55,7 +55,7 @@ class lalala extends Phaser.Scene {
     }
   }
 
-  lili(entitty, collectable) {
+  returnMainScene(entitty, collectable) {
     collectable.setActive(false);
     collectable.setVisible(false);
     this.hpPlayer -= this.children.list[2].damage;
@@ -67,4 +67,4 @@ class lalala extends Phaser.Scene {
   }
 }
 
-export default lalala;
+export default FightScene;
