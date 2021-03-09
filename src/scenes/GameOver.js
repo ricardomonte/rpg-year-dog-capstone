@@ -13,9 +13,13 @@ class GameOver extends Phaser.Scene {
     const gameOver = 'Game Over';
     this.add.text(32, 32, `${text}`, { font: '35px Arial', fill: '#ffffff' });
     this.add.text(this.center, this.center, `${gameOver}`, { font: '50px Arial', fill: '#ffffff' });
-    const btnSave = this.add.image(this.center, 568, 'btnSave').setOrigin(0.5).setInteractive();
+    const btnSave = this.add.image(this.center, 568, 'btnSave')
+      .setOrigin(0.5)
+      .setInteractive()
+      .setScale(3);
     const score = localStorage.getItem('user');
     this.saveScore(btnSave, score);
+    this.cameras.main.fadeIn(2000)
   }
 
   /* eslint-disable no-alert */

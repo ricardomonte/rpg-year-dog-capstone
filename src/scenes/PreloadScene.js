@@ -8,7 +8,6 @@ class PreloadScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON('map2', 'assets/housemap.json');
     this.load.image('inside', 'assets/Inside.png');
-    this.load.image('dog', 'assets/dog.png');
     this.load.spritesheet('girl', 'assets/Spritegirl.png', {
       frameWidth: 16, frameHeight: 16,
     });
@@ -25,7 +24,6 @@ class PreloadScene extends Phaser.Scene {
     });
     this.load.image('memory', 'assets/mem_img.png');
     this.load.image('potion', 'assets/collecthealth.png');
-    this.load.image('framing', 'assets/frame.png');
     this.load.spritesheet('wolfF', 'assets/hell-hound-idle.png', {
       frameWidth: 48, frameHeight: 32,
     });
@@ -33,6 +31,7 @@ class PreloadScene extends Phaser.Scene {
     this.load.image('button', 'assets/button.png');
     this.load.image('btnSave', 'assets/buttonsave.png');
     this.load.image('btnMenu', 'assets/buttonbackmenu.png');
+    this.load.image('btnContinue', 'assets/continue.png');
     this.load.audio('theme', 'assets/Dungeon-CrystalCave.ogg');
 
     const progressBar = this.add.graphics();

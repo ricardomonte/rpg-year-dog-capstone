@@ -176,6 +176,7 @@ class GameScene extends Phaser.Scene {
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     camera.zoomY = 5;
     camera.zoomX = 5;
+    camera.fadeIn(2000)
   }
 }
 

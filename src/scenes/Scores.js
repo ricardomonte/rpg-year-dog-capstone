@@ -16,7 +16,7 @@ class Scoreboard extends Phaser.Scene {
 
     this.add.text(this.center, 50, 'Scores', { fontSize: '52px', fill: '#fff' }).setOrigin(0.5);
     this.createScore(score);
-    const backButton = this.add.image(690, 650, 'button').setOrigin(1, 0).setInteractive().setScale(2);
+    const backButton = this.add.image(690, 650, 'btnMenu').setOrigin(1, 0).setInteractive().setScale(2);
 
     backButton.on('pointerup', () => {
       this.scene.start('MenuScene');
