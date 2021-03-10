@@ -12,7 +12,7 @@ export const getScore = async () => {
   );
   const result = await response.json();
   const elements = await result;
-  elements.result.sort((a, b) => (a.score > b.score ? 1 : -1));
+  elements.result.sort((a, b) => (b.score - a.score ));
   return elements;
 };
 
