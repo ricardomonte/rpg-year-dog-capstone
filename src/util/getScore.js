@@ -1,4 +1,4 @@
-import 'regenerator-runtime'
+import 'regenerator-runtime';
 
 export const getScore = async () => {
   const response = await fetch(
@@ -12,7 +12,7 @@ export const getScore = async () => {
   );
   const result = await response.json();
   const elements = await result;
-  elements.result.sort((a, b) => (b.score - a.score ));
+  elements.result.sort((a, b) => (b.score - a.score));
   return elements;
 };
 

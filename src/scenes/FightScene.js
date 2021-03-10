@@ -10,10 +10,10 @@ class FightScene extends Phaser.Scene {
   }
 
   create(data) {
-    this.createUi()
+    this.ui = this.createUi();
     this.hp = data.hp;
-    const wolf = this.createEnemy()
-    const player = this.createPlayer()
+    const wolf = this.createEnemy();
+    const player = this.createPlayer();
 
     this.damagePlayer = player.damage;
     this.hpPlayer = player.hp;
@@ -31,12 +31,12 @@ class FightScene extends Phaser.Scene {
       },
     });
 
-    this.healthBar = this.createHealthBar()
+    this.healthBar = this.createHealthBar();
     this.healthBar.decrease(this.hp);
   }
 
   createUi() {
-    new UiFight(this, 452, 450);
+    return new UiFight(this, 452, 450);
   }
 
   createEnemy() {
