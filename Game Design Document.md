@@ -13,7 +13,7 @@
 
 # Story
 
-*A girl that fights every day against her black dog. The idea behind the game is the fight day by day against the depression. It's a constant fight against this black dog and unfortunately, sometimes this one wins the battle.*
+*A girl was born with a black dog, she came with him from the hospital. Her dog isn't a good dog. Sometimes the dog attacks her others the dog stay calm. Luckily for her now his is calm. Even if the dog doesn't attack her, she needs to fight against him every day.  The idea behind the game is the fight day by day against the depression. It's a constant fight against this black dog and unfortunately, sometimes this one wins the battle.*
 
 # Gameplay
 
