@@ -7,8 +7,6 @@ class Hud extends Phaser.GameObjects.Container {
 
     this.setPosition(310, 310);
     this.setScrollFactor(0, 0);
-    // this.cam = this.scene.cameras.add(this.x, this.y, 1024, 1024).setZoom(0.2).setName('mini')
-    // this.cam.setVisible(true)
     this.setuplist();
   }
 
