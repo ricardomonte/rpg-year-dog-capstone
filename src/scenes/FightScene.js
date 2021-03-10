@@ -10,10 +10,10 @@ class FightScene extends Phaser.Scene {
   }
 
   create(data) {
-    this.ui = new UiFight(this, 452, 450);
+    this.createUi()
     this.hp = data.hp;
-    const wolf = new EnemyFight(this, 420, 330, 50, 10).setOrigin(0, 0);
-    const player = new PlayerFight(this, 312, 350, this.hp, 10).setOrigin(0, 0.8).setScale(2);
+    const wolf = this.createEnemy()
+    const player = this.createPlayer()
 
     this.damagePlayer = player.damage;
     this.hpPlayer = player.hp;
@@ -31,8 +31,24 @@ class FightScene extends Phaser.Scene {
       },
     });
 
-    this.healthBar = new HealthBar(this, 310, 360, 100);
+    this.healthBar = this.createHealthBar()
     this.healthBar.decrease(this.hp);
+  }
+
+  createUi() {
+    new UiFight(this, 452, 450);
+  }
+
+  createEnemy() {
+    return new EnemyFight(this, 420, 330, 50, 10).setOrigin(0, 0);
+  }
+
+  createPlayer() {
+    return new PlayerFight(this, 312, 350, this.hp, 10).setOrigin(0, 0.8).setScale(2);
+  }
+
+  createHealthBar() {
+    return new HealthBar(this, 310, 360, 100);
   }
 
   createPlayerColliders(player, { colliders }) {
