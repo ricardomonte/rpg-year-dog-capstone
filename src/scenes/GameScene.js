@@ -16,8 +16,10 @@ class GameScene extends Phaser.Scene {
     const map = this.createMap();
     const layers = this.createLayers(map);
     const positionSpawn = this.getPlayerPoint(layers.playerSpawn);
+    const positionEnd = this.getEnzone(layers.endZone);
     const enemies = this.createEnemies(layers.enemiesSpawn);
     const player = this.createPlayer(positionSpawn);
+    this.createEndzone(positionEnd, player);
     const collectables = this.createCollectables(layers.collectable);
     const collectableHealth = this.createHealthCollectables(layers.collectableHealth);
     this.addTween(collectables);
@@ -52,6 +54,7 @@ class GameScene extends Phaser.Scene {
   createLayers(map) {
     this.tileset = map.getTileset('Inside');
     const plant = map.createLayer('planthouse', this.tileset).setDepth(-2);
+    map.createLayer('over', this.tileset).setDepth(1);
     const prop = map.createLayer('props', this.tileset).setDepth(0);
     const bookshelf = map.createLayer('library', this.tileset).setDepth(2);
     const book = map.createLayer('book', this.tileset);
@@ -61,11 +64,20 @@ class GameScene extends Phaser.Scene {
     prop.setCollisionByProperty({ collides: true });
 
     const playerSpawn = map.getObjectLayer('PlayerStart');
+    const endZone = map.getObjectLayer('end-game');
     const enemiesSpawn = map.getObjectLayer('SpawnEnemy');
     const collectable = map.getObjectLayer('collectables');
     const collectableHealth = map.getObjectLayer('collectableHealth');
     return {
-      plant, prop, bookshelf, book, playerSpawn, enemiesSpawn, collectable, collectableHealth,
+      plant,
+      prop,
+      bookshelf,
+      book,
+      playerSpawn,
+      endZone,
+      enemiesSpawn,
+      collectable,
+      collectableHealth,
     };
   }
 
@@ -73,6 +85,13 @@ class GameScene extends Phaser.Scene {
     this.playerSPoint = playerPoint.objects;
     return {
       start: this.playerSPoint.find(zone => zone.name === 'spawnPlayer'),
+    };
+  }
+
+  getEnzone(endZone) {
+    this.EndGame = endZone.objects;
+    return {
+      end: this.EndGame.find(zone => zone.name === 'end-game'),
     };
   }
 
@@ -90,6 +109,14 @@ class GameScene extends Phaser.Scene {
       collectables.get(item.x, item.y, 'potion').setDepth(-1);
     });
     return collectables;
+  }
+
+  createEndzone({ end }, player) {
+    const endLevel = this.physics.add.sprite(end.x, end.y, 'end').setSize(5, 200).setAlpha(0);
+    const EOL = this.physics.add.overlap(player, endLevel, () => {
+      EOL.active = false;
+      this.scene.start('GameOver', { hp: this.playerHp });
+    });
   }
 
   createPlayer({ start }) {
