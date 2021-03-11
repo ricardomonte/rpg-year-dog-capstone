@@ -12,10 +12,14 @@ class Scoreboard extends Phaser.Scene {
   }
 
   create() {
-    const score = getScore();
-
+    this.score = null;
     this.add.text(this.center, 50, 'Scores', { fontSize: '52px', fill: '#fff' }).setOrigin(0.5);
-    this.createScore(score);
+
+    this.score = getScore().catch(() => {
+      this.errorMessage();
+    });
+    this.createScore(this.score);
+
     const backButton = this.add.image(690, 650, 'btnMenu').setOrigin(1, 0).setInteractive().setScale(2);
 
     backButton.on('pointerup', () => {
@@ -32,6 +36,11 @@ class Scoreboard extends Phaser.Scene {
         lastPositionY += this.fontStep;
       });
     });
+  }
+
+  errorMessage() {
+    const scorePosition = [this.center, 170];
+    this.add.text(...scorePosition, 'We are sorry\nWe could not get the scores\nTry later', this.fontOptions).setOrigin(0.5);
   }
 }
 

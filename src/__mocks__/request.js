@@ -1,10 +1,10 @@
-
 export const getScore = async () => {
   const response = await fetch(
     'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/PO3xRC8bxrtbhRxaL7yU/scores',
     {
       mode: 'cors',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
     },
@@ -25,15 +25,13 @@ export const setScore = async (user, score) => {
     {
       mode: 'cors',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       method: 'POST',
       body: JSON.stringify(data),
     },
   );
-  const result = await response.json()
-  return result
+  const result = await response.json();
+  return result;
 };
-
-
-export { getScores, postScore };

@@ -1,12 +1,13 @@
-import { enableFetchMocks } from 'jest-fetch-mock'
-enableFetchMocks()
+import { enableFetchMocks } from 'jest-fetch-mock';
 import { getScore, setScore } from '../util/getScore';
 
-jest.mock('../../src/__mocks__/request.js')
+enableFetchMocks();
+
+jest.mock('../../src/__mocks__/request.js');
 
 beforeEach(() => {
   fetch.resetMocks();
-})
+});
 
 test('saves the score and username to the leaderBoard', () => {
   setScore('ramn', 90)
@@ -17,7 +18,6 @@ test('saves the score and username to the leaderBoard', () => {
 test('get score and username from the leaderBoard', () => {
   getScore().then((scores) => expect(typeof scores).toEqual('object'));
 });
-
 
 test('ranking contains the user', () => {
   getScore().then(data => {
