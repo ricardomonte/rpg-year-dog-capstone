@@ -78,7 +78,7 @@ class FightScene extends Phaser.Scene {
     this.healthBar.decrease(this.hpPlayer);
 
     if (this.hpPlayer <= 0) {
-      this.scene.start('GameOver');
+      this.scene.start('GameOver', { hp: this.hpPlayer });
     }
   }
 }

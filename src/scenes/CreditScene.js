@@ -21,6 +21,7 @@ class CreditScene extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.fadeIn(2000);
     this.createMenu();
     const btn = this.add.image(690, 650, 'btnMenu').setOrigin(1, 0).setInteractive().setScale(2);
     const scene = this.scene.get('MenuScene');
